@@ -12,9 +12,9 @@ ENV UID=1000
 ENV GID=1000
 ENV UMASK=022
 
-ENV DOWNLOAD_DIR /downloads
-ENV STATE_DIR /downloads/.metube
-ENV TEMP_DIR /downloads
+ENV DOWNLOAD_DIR=/downloads
+ENV STATE_DIR=/downloads/.metube
+ENV TEMP_DIR=/downloads
 
 USER ${UID}:${GID}
 
@@ -28,8 +28,8 @@ USER root
 # Install dependencies
 RUN sed -i 's/\r$//g' docker-entrypoint.sh && \
     chmod +x docker-entrypoint.sh && \
-    apk add --update ffmpeg aria2 coreutils shadow su-exec curl && \
-    apk add --update --virtual .build-deps gcc g++ musl-dev && \
+    apk add --no-cache --update ffmpeg aria2 coreutils shadow su-exec curl && \
+    apk add --no-cache --update --virtual .build-deps gcc g++ musl-dev && \
     pip install --no-cache-dir pipenv && \
     pipenv install --system --deploy --clear && \
     pip uninstall pipenv -y && \
