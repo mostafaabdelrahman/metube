@@ -8,9 +8,21 @@ RUN npm ci && \
 
 FROM python:3.11-alpine
 
+ENV UID=1000
+ENV GID=1000
+ENV UMASK=022
+
+ENV DOWNLOAD_DIR /downloads
+ENV STATE_DIR /downloads/.metube
+ENV TEMP_DIR /downloads
+
+USER ${UID}:${GID}
+
 WORKDIR /app
 
 COPY Pipfile* docker-entrypoint.sh ./
+
+USER root
 
 # Use sed to strip carriage-return characters from the entrypoint script (in case building on Windows)
 # Install dependencies
@@ -25,16 +37,12 @@ RUN sed -i 's/\r$//g' docker-entrypoint.sh && \
     rm -rf /var/cache/apk/* && \
     mkdir /.cache && chmod 777 /.cache
 
+USER ${UID}:${GID}
+
 COPY app ./app
 COPY --from=builder /metube/dist/metube ./ui/dist/metube
 
-ENV UID=1000
-ENV GID=1000
-ENV UMASK=022
 
-ENV DOWNLOAD_DIR /downloads
-ENV STATE_DIR /downloads/.metube
-ENV TEMP_DIR /downloads
 VOLUME /downloads
 EXPOSE 8081
 CMD [ "./docker-entrypoint.sh" ]
