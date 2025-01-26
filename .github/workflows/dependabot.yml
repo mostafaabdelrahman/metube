@@ -26,5 +26,5 @@ jobs:
       - name: "EPSS Policy"
         uses: advanced-security/dependabot-epss-action@v0
         with:
-          token: ${{ env.DEPENDABOT_EPSS_GITHUB_TOKEN }}
+          token: ${{ secrets.DEPENDABOT_EPSS_GITHUB_TOKEN }}
           epss-threshold: "0"
