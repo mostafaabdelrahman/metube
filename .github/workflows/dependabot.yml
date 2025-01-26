@@ -5,6 +5,8 @@ on:
 
 env:
   TRIVY_VERSION: v0.56.1
+  # DEPENDABOT_EPSS_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DEPENDABOT_EPSS_GITHUB: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   dependency-checks:
@@ -26,5 +28,5 @@ jobs:
       - name: "EPSS Policy"
         uses: advanced-security/dependabot-epss-action@v0
         with:
-          token: ${{ secrets.DEPENDABOT_EPSS_GITHUB_TOKEN }}
+          token: ${{ env.DEPENDABOT_EPSS_GITHUB }}
           epss-threshold: "0"
