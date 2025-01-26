@@ -27,4 +27,4 @@ jobs:
         uses: advanced-security/dependabot-epss-action@v0
         with:
           token: ${{ secrets.DEPENDABOT_EPSS_GITHUB_TOKEN }}
-          epss-threshold: "0"
+          epss-threshold: "0.6"
